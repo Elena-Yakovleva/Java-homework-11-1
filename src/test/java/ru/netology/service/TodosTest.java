@@ -11,7 +11,7 @@ class TodosTest {
 
     SimpleTask simpleTask1 = new SimpleTask(5, "Позвонить родителям");
     SimpleTask simpleTask2 = new SimpleTask(7, "Написать письмо");
-    SimpleTask simpleTask3 = new SimpleTask(8, "Оплатить счет");
+    SimpleTask simpleTask3 = new SimpleTask(8, "Оплатить счет из банка");
 
     String[] subtasks1 = {"Молоко", "Яйца", "Хлеб"};
     Epic products = new Epic(55, subtasks1);
@@ -35,63 +35,91 @@ class TodosTest {
             "До четверга"
     );
 
-    @BeforeEach
-    public void setup1() {
+    //@BeforeEach
+    public void setup() {
         todos.add(simpleTask1);
         todos.add(simpleTask2);
         todos.add(simpleTask3);
-    }
-
-    @BeforeEach
-    public void setup2() {
         todos.add(products);
         todos.add(lessons);
-    }
-
-    @BeforeEach
-    public void setup3() {
+        todos.add(films);
         todos.add(meeting1);
         todos.add(meeting2);
     }
 
-
+    // Пустой массив
     @Test
-    public void shouldAddThreeTasksOfDifferentType() {
-
-        Task[] expected = {simpleTask1, simpleTask2, simpleTask3, products, lessons, meeting1, meeting2};
+    public void shouldEmptyArray() {
+        Task[] expected = {};
         Assertions.assertArrayEquals(expected, todos.findAll());
     }
 
+    // Проверка добавления трех видов задач
+    @Test
+    public void shouldAddThreeTasksOfDifferentType() {
+        setup();
+        Task[] expected = {simpleTask1, simpleTask2, simpleTask3, products, lessons, films, meeting1, meeting2};
+        Assertions.assertArrayEquals(expected, todos.findAll());
+    }
+
+    // Проверка поиска по простой задаче
     @Test
     public void shouldFindWordInSimpleTask() {
+        setup();
         todos.search("Написать");
 
         Task[] expected = {simpleTask2};
-        Assertions.assertArrayEquals(expected, todos.findAll());
+        Assertions.assertArrayEquals(expected, todos.search("Написать"));
     }
 
+    // Проверка поиска по задачам с массивом из подзадач
     @Test
     public void shouldFindWordInEpic() {
+        setup();
         todos.search("Литература");
 
         Task[] expected = {lessons};
-        Assertions.assertArrayEquals(expected, todos.findAll());
+        Assertions.assertArrayEquals(expected, todos.search("Литература"));
     }
 
+    // Проверка поиска по титулам задач, описывающих встречи
     @Test
     public void shouldFindWordInMeetingTitle() {
+        setup();
         todos.search("Выкатка");
 
         Task[] expected = {meeting1};
-        Assertions.assertArrayEquals(expected, todos.findAll());
+        Assertions.assertArrayEquals(expected, todos.search("Выкатка"));
     }
 
+    // Проверка поиска по названиям проектов задач, описывающих встречи
     @Test
     public void shouldFindWordInMeetingProject() {
+        setup();
         todos.search("дз");
 
         Task[] expected = {meeting2};
-        Assertions.assertArrayEquals(expected, todos.findAll());
+        Assertions.assertArrayEquals(expected, todos.search("дз"));
+    }
+
+    // Проверка поиска по части слова
+    @Test
+    public void shouldMultipleMatches() {
+        setup();
+        todos.search("ка");
+
+        Task[] expected = {simpleTask3, lessons, films, meeting1};
+        Assertions.assertArrayEquals(expected, todos.search("ка"));
+    }
+
+    // Проверка поиска на чувствительность к регистру букв
+    @Test
+    public void CaseSensitivity() {
+        setup();
+        todos.search("Банка");
+
+        Task[] expected = {meeting1};
+        Assertions.assertArrayEquals(expected, todos.search("Банка"));
     }
 
 }

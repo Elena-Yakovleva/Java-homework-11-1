@@ -17,10 +17,10 @@ public class Epic extends Task {
     //  Переопределение matches
     @Override
     public boolean matches(String query) {
-        for (String subtask : subtasks)
+        for (String subtask : subtasks) {
             if (subtask.contains(query)) {
                 return true;
             }
-        return false;
+        } return false;
     }
 }

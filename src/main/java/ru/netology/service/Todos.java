@@ -5,9 +5,9 @@ public class Todos {
     private Task[] tasks = new Task[0];
 
     // Вспомогательный метод для имитации добавления элемента в массив
-    // current - массив, в который мы хотим добавить элемент.
-    // task - элемент, который мы хотим добавить.
-    // return -Возвращает новый массив, в конце которого добавлен новый элемент.
+    // @current - массив, в который мы хотим добавить элемент.
+    // @task - элемент, который мы хотим добавить.
+    // @return -Возвращает новый массив, в конце которого добавлен новый элемент.
 
     private Task[] addToArray(Task[] current, Task task) {
         Task[] tmp = new Task[current.length + 1];
@@ -15,8 +15,7 @@ public class Todos {
             tmp[i] = current[i];
         }
         tmp[tmp.length - 1] = task;
-        tasks = tmp;
-        return tasks;
+        return tmp;
     }
 
 

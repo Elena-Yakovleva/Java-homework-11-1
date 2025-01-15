@@ -121,6 +121,7 @@ class TodosTest {
         Task[] expected = {meeting1};
         Assertions.assertArrayEquals(expected, todos.search("Банка"));
     }
+
     // Проверка отсутствия при поиске по задачам
     @Test
     public void shouldNotSearch() {
@@ -140,8 +141,4 @@ class TodosTest {
         Task[] expected = {meeting2};
         Assertions.assertArrayEquals(expected, todos.search("project"));
     }
-
-
-
-
 }
